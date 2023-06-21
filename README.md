@@ -1,4 +1,3 @@
-# SNS_NODE
 
 ### Node version
 ```
