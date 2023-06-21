@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "MyNewPass",
+    "database": "multi_lang",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
