@@ -12,9 +12,8 @@ class apiRoute {
     registerRoutes() {
         this.router.post(
             '/questions',
-            // formData.fields(),
-
-            questionController.question,
+            formData.fields([]),
+            questionController.question
         );
     }
 }

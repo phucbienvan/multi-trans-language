@@ -1,6 +1,7 @@
 const apiLimiter = require('./apiLimit.config');
+const logger = require('./winston.logger');
 
 module.exports = {
-
-  apiLimiter,
+    logger,
+    apiLimiter,
 }
