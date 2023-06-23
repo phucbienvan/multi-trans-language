@@ -18,8 +18,13 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      amount: {
-        type: Sequelize.STRING
+      public_key: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      private_key: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

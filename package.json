@@ -28,13 +28,16 @@
     "nodemon": "^2.0.22",
     "onesignal-node": "^3.4.0",
     "openai": "^3.3.0",
+    "openzeppelin-solidity": "^4.6.0",
     "path": "^0.12.7",
     "sequelize": "^6.21.0",
     "uuid": "^9.0.0",
-    "web3": "^1.8.0",
+    "web3": "^1.10.0",
     "winston": "^3.7.2"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "hardhat": "^2.13.0",
     "sequelize-cli": "^6.6.1"
   }
 }

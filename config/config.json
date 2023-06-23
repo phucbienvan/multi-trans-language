@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "phucbv",
-    "password": "Baovemauxanh@@98",
+    "username": "root",
+    "password": "MyNewPass",
     "database": "multi_lang",
     "host": "localhost",
     "dialect": "mysql"
