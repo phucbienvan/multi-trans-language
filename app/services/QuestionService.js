@@ -16,21 +16,11 @@ class QuestionService {
                 model: OPEN_AI_MODEL,
                 prompt: "dịch từ sau sang tiếng việt: " + req.body.keyword,
                 max_tokens: 200
-            },
-            // {
-            //     timeout: 1000,
-            //     headers: {
-            //         "Example-Header": "example",
-            //     },
-            // }
-            );
-
-            const question = completion.data.choices[0].text;
-            console.log(completion.data);
+            });
 
             const params = {
                 answer: req.body.keyword,
-                question: question,
+                question: completion.data.choices[0].text,
                 user_id: 44
             }
 

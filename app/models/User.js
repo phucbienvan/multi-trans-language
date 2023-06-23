@@ -1,7 +1,32 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/connect');
+const jwt = require("jsonwebtoken")
 
-class User extends Model { };
+class User extends Model {
+    static async generateAccessToken() {
+        return jwt.sign(
+            {
+                user: {
+                    id: this.id,
+                    email: this.email,
+                    password: this.password
+                }
+            },
+            'phucbv',
+            { expiresIn: "1d" }
+        );
+    }
+
+    static async toUserResponse(username, email) {
+        const token = await this.generateAccessToken();
+
+        return {
+            username: username,
+            email: email,
+            token: token
+        }
+    }
+};
 
 User.init({
     id: {
@@ -22,14 +47,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    amount: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
 }, {
     sequelize,
     timestamps: true,
-    modelName: 'Questions',
+    modelName: 'Users',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
 });
