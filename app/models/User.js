@@ -1,24 +1,28 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/connect');
 
-class Question extends Model { };
+class User extends Model { };
 
-Question.init({
+User.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
     },
-    user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    answer: {
+    email: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    question: {
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    amount: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -30,4 +34,4 @@ Question.init({
     updatedAt: 'updatedAt',
 });
 
-module.exports = Question;
+module.exports = User;
