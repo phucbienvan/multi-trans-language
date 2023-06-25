@@ -13,7 +13,7 @@ class UserService {
                 username: req.body.username,
                 password: hashedPs,
                 public_key: wallet.address,
-                private_key: wallet.private_key
+                private_key: wallet.privateKey
             }
 
             const newUser = await this.insertUser(params);

@@ -12,8 +12,8 @@ const options = {
 
 const createWeb3Instance = () => {
     const provider = new web3.providers.HttpProvider(HTTP_PROVIDER, options);
-    console.log(provider);
     const web3Instance = new web3(provider);
+    
     return web3Instance;
 };
 

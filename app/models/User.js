@@ -43,6 +43,14 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    public_key: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    private_key: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
