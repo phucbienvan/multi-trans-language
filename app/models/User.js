@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/connect');
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const validator = require('validator');
 
 class User extends Model {
     static async generateAccessToken() {
@@ -38,6 +39,18 @@ User.init({
     email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            validator: async function (value) {
+                if (!validator.isEmail(value)) {
+                    throw new Error('Invalid email format.');
+                }
+
+                const existingUser = await this.constructor.findOne({ email: value });
+                if (existingUser) {
+                    throw new Error('Email already exists.');
+                }
+            },
+        },
     },
     username: {
         type: DataTypes.STRING,
