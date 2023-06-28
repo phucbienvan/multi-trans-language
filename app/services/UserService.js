@@ -54,7 +54,7 @@ class UserService {
             if (!match) return res.status(401).json({ message: 'Wrong password' })
 
             return res.status(200).json({
-                data: await User.toUserResponse(loginUser.username, loginUser.email)
+                data: await User.toUserResponse(loginUser.id, loginUser.username, loginUser.email)
             });
         } catch (error) {
             logger.error(e);

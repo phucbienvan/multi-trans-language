@@ -4,13 +4,12 @@ const jwt = require("jsonwebtoken");
 const validator = require('validator');
 
 class User extends Model {
-    static async generateAccessToken() {
+    static async generateAccessToken(id, email) {
         return jwt.sign(
             {
                 user: {
-                    id: this.id,
-                    email: this.email,
-                    password: this.password
+                    id: id,
+                    email: email,
                 }
             },
             'phucbv',
@@ -18,14 +17,18 @@ class User extends Model {
         );
     }
 
-    static async toUserResponse(username, email) {
-        const token = await this.generateAccessToken();
+    static async toUserResponse(id, username, email) {
+        const token = await this.generateAccessToken(id, email);
 
         return {
             username: username,
             email: email,
             token: token
         }
+    }
+
+    static async getUserById(id) {
+        return await this.findOne({ where: {id: id} });
     }
 };
 
