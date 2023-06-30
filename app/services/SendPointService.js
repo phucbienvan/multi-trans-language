@@ -29,8 +29,9 @@ class SendPointService {
         );
 
         let amount = await this.Web3js.utils.toHex(
-            this.Web3js.utils.toWei('1')
+            this.Web3js.utils.toWei(req.body.amount)
         );
+        
         let data = await web3Contract.methods
             .transfer(toUser.public_key, amount)
             .encodeABI();

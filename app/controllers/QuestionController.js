@@ -2,11 +2,11 @@ const questionService = require('../services/QuestionService');
 
 class QuestionController {
     async question(req, res) {
-        const question = await questionService.question(req);
+        const data = await questionService.question(req);
 
         return res
             .status(200)
-            .json({ question });
+            .json({ data });
     }
 }
 
