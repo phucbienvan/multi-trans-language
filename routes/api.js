@@ -47,6 +47,13 @@ class apiRoute {
             validate.sendPoint,
             sendPointController.adminSendPoint
         );
+
+        this.router.get(
+            '/admin-get-transaction',
+            verifyJWT,
+            formData.fields([]),
+            sendPointController.adminGetTransaction
+        );
     }
 }
 

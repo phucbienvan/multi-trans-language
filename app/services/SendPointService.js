@@ -20,7 +20,7 @@ class SendPointService {
             }
 
             const decodedToken = jwt.verify(token, 'phucbv');
-        
+
             const fromUser = await User.getUserById(decodedToken.user.id);
 
             const toUser = await User.getUserById(req.body.user_id);
@@ -34,11 +34,11 @@ class SendPointService {
             let amount = await this.Web3js.utils.toHex(
                 this.Web3js.utils.toWei(req.body.amount)
             );
-            
+
             let data = await web3Contract.methods
                 .transfer(toUser.public_key, amount)
                 .encodeABI();
-            
+
             let nonce = await this.Web3js.eth.getTransactionCount(
                 fromUser.public_key,
                 'pending'
@@ -74,7 +74,7 @@ class SendPointService {
     }
 
     async adminSendPoint(req, res) {
-        // try {
+        try {
             const token = req.headers.authorization.split(' ')[1];
 
             if (!token) {
@@ -82,15 +82,15 @@ class SendPointService {
             }
 
             const decodedToken = jwt.verify(token, 'phucbv');
-        
+
             const fromUser = await User.getUserById(decodedToken.user.id);
 
             if (fromUser.role != TYPE_USER.ADMIN) {
                 return false;
             }
 
-            const toUser = await User.getUserById(req.body.user_id);            
-            
+            const toUser = await User.getUserById(req.body.user_id);
+
             let nonceBsc = await this.Web3js.eth.getTransactionCount(
                 fromUser.public_key,
                 'pending'
@@ -123,11 +123,11 @@ class SendPointService {
             let amount = await this.Web3js.utils.toHex(
                 this.Web3js.utils.toWei(req.body.amount)
             );
-            
+
             let data = await web3Contract.methods
                 .transfer(toUser.public_key, amount)
                 .encodeABI();
-            
+
             let nonce = await this.Web3js.eth.getTransactionCount(
                 fromUser.public_key,
                 'pending'
@@ -159,11 +159,31 @@ class SendPointService {
                 to_user_id: toUser.id,
                 amount: req.body.amount
             });
-        // } catch (error) {
-        //     logger.error(error);
+        } catch (error) {
+            logger.error(error);
 
-        //     return res.status(401).json({ message: 'Server error' })
-        // }
+            return res.status(401).json({ message: 'Server error' })
+        }
+    }
+
+    async adminGetTransaction(req, res) {
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            return false;
+        }
+
+        const decodedToken = jwt.verify(token, 'phucbv');
+
+        const fromUser = await User.getUserById(decodedToken.user.id);
+
+        if (fromUser.role != TYPE_USER.ADMIN) {
+            return false;
+        }
+
+        const data = TransactionHistory.findAll();
+
+        return data;
     }
 }
 
