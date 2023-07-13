@@ -39,7 +39,7 @@ module.exports = {
             .isInt().withMessage('user_id is integer'),
         check('amount')
             .exists().withMessage('amount invalid')
-            .isInt().withMessage('amount is integer'),
+            .isFloat().withMessage('amount is integer'),
         checkErrors,
     ]
 };

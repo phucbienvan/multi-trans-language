@@ -14,6 +14,20 @@ class SendPointController {
             .status(200)
             .json({ question });
     }
+
+    async adminSendPoint(req, res) {
+        const data = await sendPointService.adminSendPoint(req, res);
+
+        if (!data) {
+            return res
+                .status(500)
+                .json({ message: 'Error' });
+        }
+
+        return res
+            .status(200)
+            .json({ data });
+    }
 }
 
 module.exports = new SendPointController();

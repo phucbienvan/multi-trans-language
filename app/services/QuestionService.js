@@ -1,11 +1,30 @@
 const { Configuration, OpenAIApi } = require("openai");
 const { logger } = require('../../config');
 const { OPEN_API_KEY, OPEN_AI_MODEL } = process.env;
-const { Question } = require('../models/index')
+const { Question, User } = require('../models/index');
+const jwt = require("jsonwebtoken");
 
 class QuestionService {
-    async question(req) {
+    async question(req, res) {
         try {
+            const token = req.headers.authorization.split(' ')[1];
+
+            if (!token) {
+                return false;
+            }
+
+            const decodedToken = jwt.verify(token, 'phucbv');
+        
+            const fromUser = await User.getUserById(decodedToken.user.id);
+
+            if (fromUser.amount < 1) {
+                return res.status(422).json({
+                    errors: {
+                        message: "not enough"
+                    }
+                });
+            }
+
             const configuration = new Configuration({
                 apiKey: OPEN_API_KEY,
             });
@@ -17,6 +36,10 @@ class QuestionService {
                 prompt: "dịch từ sau sang tiếng việt: " + req.body.keyword,
                 max_tokens: 200
             });
+
+            await fromUser.update({
+                amount: fromUser.amount - 1
+            })
 
             const params = {
                 answer: req.body.keyword,

@@ -40,6 +40,13 @@ class apiRoute {
             validate.sendPoint,
             sendPointController.sendPoint
         );
+        this.router.post(
+            '/admin-send-point',
+            verifyJWT,
+            formData.fields([]),
+            validate.sendPoint,
+            sendPointController.adminSendPoint
+        );
     }
 }
 

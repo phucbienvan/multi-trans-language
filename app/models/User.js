@@ -2,6 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../database/connect');
 const jwt = require("jsonwebtoken");
 const validator = require('validator');
+const { TYPE_USER } = require('../constants/type.constant');
 
 class User extends Model {
     static async generateAccessToken(id, email) {
@@ -21,6 +22,7 @@ class User extends Model {
         const token = await this.generateAccessToken(id, email);
 
         return {
+            id: id,
             username: username,
             email: email,
             token: token
@@ -42,18 +44,18 @@ User.init({
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            validator: async function (value) {
-                if (!validator.isEmail(value)) {
-                    throw new Error('Invalid email format.');
-                }
+        // validate: {
+        //     validator: async function (value) {
+        //         if (!validator.isEmail(value)) {
+        //             throw new Error('Invalid email format.');
+        //         }
 
-                const existingUser = await this.constructor.findOne({ email: value });
-                if (existingUser) {
-                    throw new Error('Email already exists.');
-                }
-            },
-        },
+        //         const existingUser = await this.constructor.findOne({ email: value });
+        //         if (existingUser) {
+        //             throw new Error('Email already exists.');
+        //         }
+        //     },
+        // },
     },
     username: {
         type: DataTypes.STRING,
@@ -69,6 +71,15 @@ User.init({
     },
     password: {
         type: DataTypes.STRING,
+        allowNull: false,
+    },
+    role: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: TYPE_USER.USER
+    },
+    amount: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 }, {

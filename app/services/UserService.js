@@ -1,6 +1,7 @@
 const { User } = require('../models/index')
 const { logger, web3 } = require('../../config');
 const bcrypt = require('bcrypt');
+const { TYPE_USER } = require('../constants/type.constant');
 
 class UserService {
     async registerUser(req, res) {
@@ -13,7 +14,9 @@ class UserService {
                 username: req.body.username,
                 password: hashedPs,
                 public_key: wallet.address,
-                private_key: wallet.privateKey
+                private_key: wallet.privateKey,
+                role: TYPE_USER.USER,
+                amount: 0,
             }
 
             const newUser = await this.insertUser(params);
