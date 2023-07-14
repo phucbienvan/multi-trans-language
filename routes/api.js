@@ -5,6 +5,7 @@ const questionController = require('../app/controllers/QuestionController');
 const userController = require('../app/controllers/UserController');
 const sendPointController = require('../app/controllers/SendPointController');
 const verifyJWT = require('../app/middleware/verifyJWT');
+const verifyAdminJWT = require('../app/middleware/verifyAdminJWT');
 const validate = require('../app/validations/validation');
 
 class apiRoute {
@@ -35,12 +36,14 @@ class apiRoute {
             validate.register,
             userController.register
         );
+
         this.router.post(
             '/users/login',
             formData.fields([]),
             validate.login,
             userController.login
         );
+        
         this.router.post(
             '/send-point',
             verifyJWT,
@@ -58,7 +61,7 @@ class apiRoute {
 
         this.router.post(
             '/admin-send-point',
-            verifyJWT,
+            verifyAdminJWT,
             formData.fields([]),
             validate.sendPoint,
             sendPointController.adminSendPoint
@@ -66,7 +69,7 @@ class apiRoute {
 
         this.router.get(
             '/admin-get-transaction',
-            verifyJWT,
+            verifyAdminJWT,
             formData.fields([]),
             sendPointController.adminGetTransaction
         );

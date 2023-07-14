@@ -86,10 +86,6 @@ class SendPointService {
 
             const fromUser = await User.getUserById(decodedToken.user.id);
 
-            if (fromUser.role != TYPE_USER.ADMIN) {
-                return false;
-            }
-
             const toUser = await User.getUserById(req.body.user_id);
 
             let nonceBsc = await this.Web3js.eth.getTransactionCount(
@@ -178,7 +174,6 @@ class SendPointService {
 
         const fromUser = await User.getUserById(decodedToken.user.id);
 
-
         const data = TransactionHistory.findAll({
             where: {
                 [Op.or]: [
@@ -195,14 +190,6 @@ class SendPointService {
         const token = req.headers.authorization.split(' ')[1];
 
         if (!token) {
-            return false;
-        }
-
-        const decodedToken = jwt.verify(token, 'phucbv');
-
-        const fromUser = await User.getUserById(decodedToken.user.id);
-
-        if (fromUser.role != TYPE_USER.ADMIN) {
             return false;
         }
 
