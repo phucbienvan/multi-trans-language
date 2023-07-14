@@ -44,12 +44,38 @@ class QuestionService {
             const params = {
                 answer: req.body.keyword,
                 question: completion.data.choices[0].text,
-                user_id: 44
+                user_id: fromUser.id
             }
 
             return this.insertQuestion(params);
         } catch (error) {
             logger.error(error);
+
+            return false;
+        }
+    }
+
+    async getQuestions(req) {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+
+            if (!token) {
+                return false;
+            }
+
+            let decodedToken = jwt.verify(token, 'phucbv');
+
+            let fromUser = await User.getUserById(decodedToken.user.id);
+
+            let data = await Question.findAll({
+                where: {
+                    user_id: fromUser.id
+                }
+            })
+
+            return data
+        } catch (e) {
+            logger.error(e);
 
             return false;
         }

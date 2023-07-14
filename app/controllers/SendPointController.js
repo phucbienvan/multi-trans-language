@@ -29,6 +29,20 @@ class SendPointController {
             .json({ data });
     }
 
+    async getTransactions(req, res) {
+        const data = await sendPointService.getTransactions(req);
+
+        if (!data) {
+            return res
+                .status(500)
+                .json({ message: 'Error' });
+        }
+
+        return res
+            .status(200)
+            .json({ data });
+    }
+
     async adminGetTransaction(req, res) {
         const data = await sendPointService.adminGetTransaction(req, res);
 

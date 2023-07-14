@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require('../models');
 const TransactionHistory = require('../models/TransactionHistory');
 const { TYPE_USER } = require('../constants/type.constant');
+const { Op } = require('sequelize');
 
 class SendPointService {
     constructor() {
@@ -164,6 +165,30 @@ class SendPointService {
 
             return res.status(401).json({ message: 'Server error' })
         }
+    }
+
+    async getTransactions(req) {
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            return false;
+        }
+
+        const decodedToken = jwt.verify(token, 'phucbv');
+
+        const fromUser = await User.getUserById(decodedToken.user.id);
+
+
+        const data = TransactionHistory.findAll({
+            where: {
+                [Op.or]: [
+                  { from_user_id: fromUser.id },
+                  { to_user_id: fromUser.id }
+                ]
+              }
+        });
+
+        return data; 
     }
 
     async adminGetTransaction(req, res) {

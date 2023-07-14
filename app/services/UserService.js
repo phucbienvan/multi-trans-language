@@ -60,7 +60,7 @@ class UserService {
                 data: await User.toUserResponse(loginUser.id, loginUser.username, loginUser.email)
             });
         } catch (error) {
-            logger.error(e);
+            logger.error(error);
 
             return res.status(401).json({ message: 'Server error' })
         }

@@ -8,6 +8,14 @@ class QuestionController {
             .status(200)
             .json({ data });
     }
+
+    async getQuestions (req, res) {
+        const data = await questionService.getQuestions(req);
+
+        return res
+            .status(200)
+            .json({ data });
+    }
 }
 
 module.exports = new QuestionController();

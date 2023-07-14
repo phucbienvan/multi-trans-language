@@ -21,6 +21,14 @@ class apiRoute {
             validate.question,
             questionController.question
         );
+
+        this.router.get(
+            '/questions',
+            verifyJWT,
+            formData.fields([]),
+            questionController.getQuestions
+        );
+
         this.router.post(
             '/users/register',
             formData.fields([]),
@@ -40,6 +48,14 @@ class apiRoute {
             validate.sendPoint,
             sendPointController.sendPoint
         );
+
+        this.router.get(
+            '/get-transactions',
+            verifyJWT,
+            formData.fields([]),
+            sendPointController.getTransactions
+        );
+
         this.router.post(
             '/admin-send-point',
             verifyJWT,
