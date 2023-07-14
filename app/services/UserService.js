@@ -41,7 +41,7 @@ class UserService {
     }
 
     async login(req, res) {
-        try {
+        // try {
             const loginUser = await User.findOne({
                 where: {
                     email: req.body.email
@@ -57,13 +57,13 @@ class UserService {
             if (!match) return res.status(401).json({ message: 'Wrong password' })
 
             return res.status(200).json({
-                data: await User.toUserResponse(loginUser.id, loginUser.username, loginUser.email)
+                data: await User.toUserResponse(loginUser.id, loginUser.username, loginUser.email, loginUser.role)
             });
-        } catch (error) {
-            logger.error(error);
+        // } catch (error) {
+        //     logger.error(error);
 
-            return res.status(401).json({ message: 'Server error' })
-        }
+        //     return res.status(401).json({ message: 'Server error' })
+        // }
     }
 
     async insertUser(params) {

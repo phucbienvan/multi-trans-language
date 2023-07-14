@@ -5,12 +5,13 @@ const validator = require('validator');
 const { TYPE_USER } = require('../constants/type.constant');
 
 class User extends Model {
-    static async generateAccessToken(id, email) {
+    static async generateAccessToken(id, email, role) {
         return jwt.sign(
             {
                 user: {
                     id: id,
                     email: email,
+                    role: role
                 }
             },
             'phucbv',
@@ -18,13 +19,14 @@ class User extends Model {
         );
     }
 
-    static async toUserResponse(id, username, email) {
-        const token = await this.generateAccessToken(id, email);
+    static async toUserResponse(id, username, email, role) {
+        const token = await this.generateAccessToken(id, email, role);
 
         return {
             id: id,
             username: username,
             email: email,
+            role: role,
             token: token
         }
     }
