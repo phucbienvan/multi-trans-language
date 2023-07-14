@@ -43,7 +43,14 @@ class apiRoute {
             validate.login,
             userController.login
         );
-        
+
+        this.router.get(
+            '/profile',
+            verifyJWT,
+            formData.fields([]),
+            userController.getUserProfile
+        );
+
         this.router.post(
             '/send-point',
             verifyJWT,

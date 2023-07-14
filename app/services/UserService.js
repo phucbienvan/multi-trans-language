@@ -2,6 +2,7 @@ const { User } = require('../models/index')
 const { logger, web3 } = require('../../config');
 const bcrypt = require('bcrypt');
 const { TYPE_USER } = require('../constants/type.constant');
+const jwt = require("jsonwebtoken");
 
 class UserService {
     async registerUser(req, res) {
@@ -41,7 +42,7 @@ class UserService {
     }
 
     async login(req, res) {
-        // try {
+        try {
             const loginUser = await User.findOne({
                 where: {
                     email: req.body.email
@@ -59,11 +60,41 @@ class UserService {
             return res.status(200).json({
                 data: await User.toUserResponse(loginUser.id, loginUser.username, loginUser.email, loginUser.role)
             });
-        // } catch (error) {
-        //     logger.error(error);
+        } catch (error) {
+            logger.error(error);
 
-        //     return res.status(401).json({ message: 'Server error' })
-        // }
+            return res.status(401).json({ message: 'Server error' })
+        }
+    }
+
+    async getUserProfile(req, res) {
+        let token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            return false;
+        }
+
+        let decodedToken = jwt.verify(token, 'phucbv');
+
+        let userId = req.body?.user_id ?? decodedToken.user.id;
+
+        let fromUser = await User.getUserById(userId);
+
+        if (!fromUser) {
+            return res.status(404).json({ message: "User Not Found" });
+        }
+
+        let params = {
+            id: fromUser.id,
+            username: fromUser.username,
+            email: fromUser.email,
+            public_key: fromUser.public_key,
+            amount: fromUser.amount
+        }
+
+        return res.status(200).json({
+            data: params
+        });
     }
 
     async insertUser(params) {

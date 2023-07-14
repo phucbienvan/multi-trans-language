@@ -12,6 +12,12 @@ class UserController {
 
         return login;
     }
+
+    async getUserProfile(req, res) {
+        const data = await userService.getUserProfile(req, res);
+
+        return data;
+    }
 }
 
 module.exports = new UserController();
